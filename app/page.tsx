@@ -1,3 +1,7 @@
+import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+import { signOut } from "@/app/actions/auth";
+
 const feedAlerts = [
   {
     time: "07:42",
@@ -25,7 +29,16 @@ const feedAlerts = [
   },
 ];
 
-export default function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: { criado?: string };
+}) {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <main className="min-h-screen flex flex-col">
       <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center gap-16 px-6 py-20 lg:flex-row lg:items-center lg:gap-12">
@@ -45,20 +58,42 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-4">
-            <a
-              href="#"
-              className="rounded-md bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-ink-deep"
-            >
-              Criar conta
-            </a>
-            <a
-              href="#"
-              className="rounded-md border border-ink/15 px-6 py-3 text-sm font-medium text-ink transition-colors hover:border-ink/30"
-            >
-              Entrar
-            </a>
-          </div>
+          {searchParams.criado && (
+            <div className="rounded-md border border-signal/30 bg-signal/10 px-4 py-3 text-sm text-ink">
+              Conta criada com sucesso.
+            </div>
+          )}
+
+          {user ? (
+            <div className="flex flex-wrap items-center gap-4">
+              <span className="text-sm text-slate">
+                Logado como <span className="text-ink">{user.email}</span>
+              </span>
+              <form action={signOut}>
+                <button
+                  type="submit"
+                  className="rounded-md border border-ink/15 px-6 py-3 text-sm font-medium text-ink transition-colors hover:border-ink/30"
+                >
+                  Sair
+                </button>
+              </form>
+            </div>
+          ) : (
+            <div className="flex flex-wrap gap-4">
+              <Link
+                href="/criar-conta"
+                className="rounded-md bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-ink-deep"
+              >
+                Criar conta
+              </Link>
+              <Link
+                href="/entrar"
+                className="rounded-md border border-ink/15 px-6 py-3 text-sm font-medium text-ink transition-colors hover:border-ink/30"
+              >
+                Entrar
+              </Link>
+            </div>
+          )}
         </div>
 
         {/* Coluna da direita: feed de alertas simulado (elemento de assinatura) */}

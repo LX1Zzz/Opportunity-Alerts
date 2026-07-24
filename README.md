@@ -1,8 +1,14 @@
-# Opportunity Alerts — Fase 1
+# Opportunity Alerts — Fase 2
 
-Site inicial: só a home page, com o nome do produto e os botões "Entrar" e
-"Criar conta" (ainda sem funcionar). Sem banco de dados, sem login, sem IA,
-sem crawler.
+Fase 1 (home) + autenticação real via Supabase: criar conta, entrar e sair.
+
+## Configuração antes de rodar (só na primeira vez)
+
+1. Copie o arquivo `.env.local.example` e renomeie a cópia para `.env.local`.
+2. Abra o `.env.local` e preencha com os valores do seu projeto Supabase
+   (Project Settings → API): `NEXT_PUBLIC_SUPABASE_URL` e
+   `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+3. Esse arquivo nunca vai para o GitHub (já está no `.gitignore`).
 
 ## Como rodar no seu computador
 

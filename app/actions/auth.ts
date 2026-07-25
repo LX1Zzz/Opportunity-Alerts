@@ -17,7 +17,7 @@ export async function signUp(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/?criado=1");
+  redirect("/dashboard?criado=1");
 }
 
 export async function signIn(formData: FormData) {
@@ -36,7 +36,7 @@ export async function signIn(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect("/dashboard");
 }
 
 export async function signOut() {

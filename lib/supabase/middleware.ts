@@ -28,7 +28,16 @@ export async function updateSession(request: NextRequest) {
   // Isso renova o token de sessão se estiver perto de expirar.
   // Sem essa chamada, o usuário seria deslogado de tempos em tempos
   // mesmo continuando a usar o site.
-  await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // Rota protegida: sem usuário logado, não entra no /dashboard.
+  if (!user && request.nextUrl.pathname.startsWith("/dashboard")) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/entrar";
+    return NextResponse.redirect(url);
+  }
 
   return supabaseResponse;
 }

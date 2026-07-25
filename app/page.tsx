@@ -29,11 +29,7 @@ const feedAlerts = [
   },
 ];
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: { criado?: string };
-}) {
+export default async function Home() {
   const supabase = createClient();
   const {
     data: { user },
@@ -58,17 +54,17 @@ export default async function Home({
             </p>
           </div>
 
-          {searchParams.criado && (
-            <div className="rounded-md border border-signal/30 bg-signal/10 px-4 py-3 text-sm text-ink">
-              Conta criada com sucesso.
-            </div>
-          )}
-
           {user ? (
             <div className="flex flex-wrap items-center gap-4">
               <span className="text-sm text-slate">
                 Logado como <span className="text-ink">{user.email}</span>
               </span>
+              <Link
+                href="/dashboard"
+                className="rounded-md bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-ink-deep"
+              >
+                Ir para o dashboard
+              </Link>
               <form action={signOut}>
                 <button
                   type="submit"
